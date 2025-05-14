@@ -1,0 +1,91 @@
+
+
+import os
+os.environ["OPENROUTER_API_KEY"] ="provide your Mistral small API(OpenRouter)"
+
+
+
+import os
+from openai import OpenAI
+
+# Set API key securely
+api_key = os.getenv("OPENROUTER_API_KEY")  # Ensure the key is set in the environment
+
+if not api_key:
+    raise ValueError("API key not found. Set OPENROUTER_API_KEY in environment variables.")
+
+import pandas as pd
+
+df = pd.read_csv("BLanCK.csv")
+
+
+df
+
+
+
+from openai import OpenAI
+
+def get_answer(question, context=None):
+    if context:
+        question += f"শুধ়মাত্র বাংলা ভাষায় এবং সরবোচ্ছ পাঁচ শব্দে উত্তর দিন, প্রশ্নটির প্রেকাপট হোলো {context}"
+    else:
+        question += "শুধ়মাত্র বাংলা ভাষায় এবং সরবোচ্ছ পাঁচ শব্দে উত্তর দিন"
+    client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=api_key,
+    )
+
+    completion = client.chat.completions.create(
+    model="mistralai/mistral-small-3.1-24b-instruct",
+    messages=[
+    {
+      "role": "user",
+      "content": question
+    }],
+    temperature=0,
+    max_tokens=1024,
+    top_p=1
+    )
+
+    return completion.choices[0].message.content
+
+import time
+import requests
+count=start
+t=0
+data=[["term","context","category","Culture_type","popularity","questions","answer_without_context","answer_with_context"]]
+for row in df.itertuples(index=True, name='Pandas'):
+    question=row.questions
+    context=row.context
+    try:
+        ans_ques=get_answer(question,None)
+        ans_ques=ans_ques.strip()
+        ans_ques.replace("\n", " ")
+        #--------------------------
+        ans_context=get_answer(question,context)
+        ans_context=ans_context.strip()
+        ans_context.replace("\n", " ")
+        data.append([row.term,context,row.category,row.Culture_type,row.popularity,question,ans_ques,ans_context])
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 429:
+            print("Rate limit exceeded. Waiting...")
+            time.sleep(60)  # wait for 60 seconds before retrying
+        else:
+            print(f"HTTP error occurred: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    count+=1
+
+    t+=1
+    if t==10:
+        time.sleep(65)
+        t=0
+    print(count)
+
+print(data)
+df_2 = pd.DataFrame(data[1:], columns=data[0])
+df_2.to_csv('mistral_small_answers.csv', index=False)
+
+# Verify the file has been created
+print("CSV file created successfully.")
