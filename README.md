@@ -1,1 +1,1 @@
-# BLanCK
+# BLanCK : Bengali Language Cultural Knowledge
