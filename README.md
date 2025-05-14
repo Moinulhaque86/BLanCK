@@ -16,4 +16,4 @@ Each version contains Bengali terms along with their contexts sourced from Wikip
 - Non-cultural categories (42.6%)  
 - Miscellaneous (13.01%)
 
-## Prompts
+## 🧾 Prompts
