@@ -28,7 +28,7 @@ Each section includes scripts to run specific models on the BLanCK dataset.
 The following models were used in our evaluation:
 
 - 🔮 **Gemini 2.0 Flash**
-- 🧠 **DeepSeek-V3 0324**
+- 🐋 **DeepSeek-V3 0324**
 - 🦙 **LLaMA 3 (70B, 8192)**
 - 🤖 **GPT-4o**
 - 🌪️ **Mistral Small 3.1**
