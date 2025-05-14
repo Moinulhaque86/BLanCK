@@ -1,6 +1,7 @@
 # BLanCK: Bengali Language Cultural Knowledge
 <img align="center"  src="BLanCK-pic.png" alt="BLanCK">
 
+
 This repository provides the dataset and prompts to evaluate Large Language Models (LLMs) on Bengali cultural knowledge.
 
 ## Dataset
