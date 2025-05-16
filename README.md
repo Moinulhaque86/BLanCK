@@ -19,7 +19,7 @@ Each version contains Bengali terms along with their contexts sourced from Wikip
 - Non-cultural categories (42.6%)  
 - Miscellaneous (13.01%)
 
-This dataset is licensed under Creative Commons CC BY 4.0
+This dataset is licensed under Creative Commons CC BY 4.0.
 
 ## Prompts
 
